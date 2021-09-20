@@ -1,0 +1,252 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Doar Mais - API",
+        "description": "Manter funcionamento de sistema Doar Mais"
+    },
+    "host": "pi5final.appdoarmais.repl.co",
+    "tags": [
+        {
+            "name": "Usuários",
+            "description": "Usuários da aplicação"
+        },
+        {
+            "name": "Doadores",
+            "description": "Manter operações inerentes aos Doadores"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/autenticar/": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "description": "Autenticação de Usuários",
+                "parameters": [
+                    {
+                        "name": "usuario",
+                        "in": "body",
+                        "description": "Verificar se usuário está apto a utilizar o sistema",
+                        "schema": {
+                            "$ref": "#/definitions/Usuario"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario possui permissão para acessar o sistema",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseUsuarioLogado"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doacao/": {
+            "post": {
+                "tags": [
+                    "Doadores"
+                ],
+                "description": "Criar Doação",
+                "parameters": [
+                    {
+                        "name": "doacao",
+                        "in": "body",
+                        "description": "Cadastrar Doação",
+                        "schema": {
+                            "$ref": "#/definitions/Doacao"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doação Criada",
+                        "schema": {
+                            "$ref": "#/definitions/DoacaoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doacao/disponivel/": {
+            "get": {
+                "tags": [
+                    "Doadores"
+                ],
+                "description": "Obter Doações Disponíveis",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doação Disponível",
+                        "schema": {
+                            "$ref": "#/definitions/DoacaoResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/doacao/acompanhamento/{_id}/": {
+            "get": {
+                "tags": [
+                    "Doadores"
+                ],
+                "description": "Obter Acompanhamento de Doação",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "description": "Identificador da Doação",
+                        "schema": {
+                            "$ref": "#/definitions/RequestAcompanhamentoDoacao"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doação",
+                        "schema": {
+                            "$ref": "#/definitions/DoacaoResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Usuario": {
+            "required": [
+                "login",
+                "senha",
+                "tipoUsuario"
+            ],
+            "properties": {
+                "login": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "senha": {
+                    "type": "string",
+                    "required": true
+                },
+                "tipoUsuario": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "Doacao": {
+            "required": [
+                "login"
+            ],
+            "properties": {
+                "doador": {
+                    "type": "string",
+                    "required": true
+                },
+                "produto": {
+                    "type": "string",
+                    "required": true
+                },
+                "quantidade": {
+                    "type": "string",
+                    "required": true
+                },
+                "validade": {
+                    "type": "string",
+                    "required": true
+                },
+                "localretirada": {
+                    "type": "string",
+                    "required": true
+                },
+                "observacao": {
+                    "type": "string"
+                },
+                "datadisponibilidade": {
+                    "type": "date",
+                    "required": true
+                },
+                "status": {
+                    "type": "string",
+                    "required": true
+                },
+                "datainiciodivulgacao": {
+                    "type": "date",
+                    "required": true
+                }
+            }
+        },
+        "RequestAcompanhamentoDoacao": {
+            "properties": {
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ResponseUsuarioLogado": {
+            "properties": {
+                "value": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "DoacaoResponse": {
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "doador": {
+                    "type": "string"
+                },
+                "produto": {
+                    "type": "string"
+                },
+                "quantidade": {
+                    "type": "string"
+                },
+                "validade": {
+                    "type": "string"
+                },
+                "localretirada": {
+                    "type": "string"
+                },
+                "observacao": {
+                    "type": "string"
+                },
+                "datadisponibilidade": {
+                    "type": "date"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "datainiciodivulgacao": {
+                    "type": "date"
+                },
+                "__v": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
